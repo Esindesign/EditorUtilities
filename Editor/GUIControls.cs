@@ -33,6 +33,19 @@ namespace FantasticYes.Tools
 		/// <summary>
 		/// Creates a toggle button control.
 		/// </summary>
+		/// <param name="rect">The GUI control rect.</param>
+		/// <param name="state">The toggle state.</param>
+		/// <param name="content">GUIContent label.</param>
+		/// <returns>The button state.</returns>
+		public static bool Toggle (Rect rect, bool state, GUIContent content)
+		{
+			PopulateStyles ();
+			return DoToggle (rect, state, content, s_Styles ["ToggleOn"], s_Styles ["ToggleOff"]);
+		}
+
+		/// <summary>
+		/// Creates a toggle button control.
+		/// </summary>
 		/// <param name="state">The toggle state.</param>
 		/// <param name="content">GUIContent label.</param>
 		/// <param name="options">GUILayout options.</param>
@@ -53,6 +66,20 @@ namespace FantasticYes.Tools
 		{
 			PopulateStyles ();
 			return DoToggle (EditorGUILayout.GetControlRect (), state, content, s_Styles ["ToggleMidOn"], s_Styles ["ToggleMidOff"]);
+		}
+
+
+		/// <summary>
+		/// Creates a toggle button control.
+		/// </summary>
+		/// <param name="rect">The GUI control rect.</param>
+		/// <param name="state">The toggle state.</param>
+		/// <param name="content">GUIContent label.</param>
+		/// <returns>The button state.</returns>
+		public static bool ToggleMid (Rect rect, bool state, GUIContent content)
+		{
+			PopulateStyles ();
+			return DoToggle (rect, state, content, s_Styles ["ToggleMidOn"], s_Styles ["ToggleMidOff"]);
 		}
 
 		/// <summary>
@@ -81,6 +108,19 @@ namespace FantasticYes.Tools
 		}
 
 		/// <summary>
+		/// Creates a toggle button control.
+		/// </summary>
+		/// <param name="rect">The GUI control rect.</param>
+		/// <param name="state">The toggle state.</param>
+		/// <param name="content">GUIContent label.</param>
+		/// <returns>The button state.</returns>
+		public static bool ToggleLeft (Rect rect, bool state, GUIContent content)
+		{
+			PopulateStyles ();
+			return DoToggle (rect, state, content, s_Styles ["ToggleLeftOn"], s_Styles ["ToggleLeftOff"]);
+		}
+
+		/// <summary>
 		/// Creates a left toggle button control.
 		/// </summary>
 		/// <param name="state">The toggle state.</param>
@@ -106,6 +146,19 @@ namespace FantasticYes.Tools
 		}
 
 		/// <summary>
+		/// Creates a toggle button control.
+		/// </summary>
+		/// <param name="rect">The GUI control rect.</param>
+		/// <param name="state">The toggle state.</param>
+		/// <param name="content">GUIContent label.</param>
+		/// <returns>The button state.</returns>
+		public static bool ToggleRight (Rect rect, bool state, GUIContent content)
+		{
+			PopulateStyles ();
+			return DoToggle (rect, state, content, s_Styles ["ToggleRightOn"], s_Styles ["ToggleRightOff"]);
+		}
+
+		/// <summary>
 		/// Creates a right toggle button control.
 		/// </summary>
 		/// <param name="state">The toggle state.</param>
@@ -127,8 +180,42 @@ namespace FantasticYes.Tools
 		public static int ToggleGroup (int index, GUIContent [] content)
 		{
 			PopulateStyles ();
+			return DoToggleGroup (EditorGUILayout.GetControlRect (), index, content);
+		}
+
+		/// <summary>
+		/// Creates a toggle button group.
+		/// </summary>
+		/// <param name="rect">The GUI control rect.</param>
+		/// <param name="index">The selected button index, or -1.</param>
+		/// <param name="content">The GUIContent array for the all buttons.</param>
+		/// <returns>The selected index, or -1 when unselected.</returns>
+		public static int ToggleGroup (Rect rect, int index, GUIContent [] content)
+		{
+			PopulateStyles ();
+			return DoToggleGroup (rect, index, content);
+		}
+		#endregion
+
+		private static bool DoToggle (Rect rect, bool state, GUIContent content, GUIStyle on, GUIStyle off)
+		{
+			if (!state)
+			{
+				s_ContentColor = GUI.contentColor;
+				GUI.contentColor = s_ToggleColor;
+
+				state = GUI.Toggle (rect, state, content, state ? on : off);
+				GUI.contentColor = s_ContentColor;
+
+				return state;
+			}
+
+			return GUI.Toggle (rect, state, content, state ? on : off);
+		}
+
+		private static int DoToggleGroup (Rect rect, int index, GUIContent [] content)
+		{
 			int count = content.Length;
-			Rect rect = EditorGUILayout.GetControlRect ();
 			rect.width /= count;
 
 			for (int i = 0; i < count; i++)
@@ -160,23 +247,6 @@ namespace FantasticYes.Tools
 			}
 
 			return index;
-		}
-		#endregion
-
-		private static bool DoToggle (Rect rect, bool state, GUIContent content, GUIStyle on, GUIStyle off)
-		{
-			if (!state)
-			{
-				s_ContentColor = GUI.contentColor;
-				GUI.contentColor = s_ToggleColor;
-
-				state = GUI.Toggle (rect, state, content, state ? on : off);
-				GUI.contentColor = s_ContentColor;
-
-				return state;
-			}
-
-			return GUI.Toggle (rect, state, content, state ? on : off);
 		}
 
 		private static void PopulateStyles ()

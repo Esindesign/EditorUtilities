@@ -116,6 +116,6 @@ namespace FantasticYes.Tools
 		}
 
 		protected abstract Vector2 GetWindowSize ();
-		protected abstract void WindowGUI (int windowID);
+		public abstract void WindowGUI (int windowID);
 	}
 }
