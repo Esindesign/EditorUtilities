@@ -195,6 +195,18 @@ namespace FantasticYes.Tools
 			PopulateStyles ();
 			return DoToggleGroup (rect, index, content);
 		}
+
+		public static void Separator (int thickness = 2, int padding = 10)
+		    {
+			Rect r = EditorGUILayout.GetControlRect (GUILayout.Height (padding + thickness));
+			r.height = thickness;
+			r.width += 32;
+			r.y += padding / 2;
+			r.x -= 16;
+
+			EditorGUI.DrawRect (r, s_ToggleColor);
+		    }
+		}
 		#endregion
 
 		private static bool DoToggle (Rect rect, bool state, GUIContent content, GUIStyle on, GUIStyle off)
